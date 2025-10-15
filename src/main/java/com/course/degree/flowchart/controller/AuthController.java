@@ -60,4 +60,25 @@ public class AuthController {
         session.invalidate();
         return "redirect:/auth/login";
     }
+
+    @GetMapping("/register")
+    public String showRegistrationPage(Model model) {
+        model.addAttribute("student", new Student());
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String processRegistration(@ModelAttribute("student") Student newStudent, Model model) {
+        Optional<Student> existing = repo.findByEmail(newStudent.getEmail());
+        if (existing.isPresent()) {
+            model.addAttribute("error", "Email already registered. Please login instead.");
+            return "register";
+        }
+
+        repo.save(newStudent);
+
+        model.addAttribute("message", "Registration successful! Please login.");
+        model.addAttribute("student", new Student());
+        return "login";
+    }
 }
