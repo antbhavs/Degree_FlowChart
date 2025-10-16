@@ -3,26 +3,155 @@
 <head>
     <title>Welcome</title>
     <style>
-        table { border-collapse: collapse; width: 80%; margin: 15px 0; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-        th { background: #007bff; color: white; }
-        h3 { margin-top: 30px; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f6fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .student-card {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 25px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .student-card h2 {
+            margin-bottom: 15px;
+            color: #007bff;
+        }
+
+        .student-card p {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h3 {
+            margin-top: 40px;
+            text-align: center;
+            color: #007bff;
+        }
+
+        #cy {
+            width: 90%;
+            height: 600px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            background-color: #ffffff;
+            border-radius: 8px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        form {
+            text-align: center;
+            margin: 30px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
     </style>
+
+    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+    <script src="https://unpkg.com/dagre/dist/dagre.min.js"></script>
+    <script src="https://unpkg.com/cytoscape-dagre/cytoscape-dagre.js"></script>
 </head>
 <body>
-<h2 th:text="'Welcome, ' + ${name} + '!'"></h2>
 
-<h3>Your Enrolled Courses</h3>
-<table>
-    <tr><th>Code</th><th>Name</th></tr>
-    <tr th:each="course : ${enrolledCourses}">
-        <td th:text="${course.code}"></td>
-        <td th:text="${course.name}"></td>
-    </tr>
-</table>
+<div class="student-card">
+    <h2>Welcome, <span th:text="${student.name}"></span>!</h2>
+    <p>
+        <strong>Email:</strong> <span th:text="${student.email}"></span><br>
+        <strong>Degree:</strong> <span th:text="${student.degree}"></span><br>
+        <strong>Year:</strong> <span th:text="${student.year}"></span><br>
+        <strong>GPA:</strong> <span th:text="${student.gpa}"></span>
+    </p>
+</div>
+
+<h3>Course Flowchart</h3>
+<div id="cy"></div>
 
 <form th:action="@{/auth/logout}" method="get">
     <button type="submit">Logout</button>
 </form>
+
+<script>
+    fetch('/api/courses/graph?email=[[${student.email}]]')
+        .then(response => response.json())
+        .then(data => {
+            var cy = cytoscape({
+                container: document.getElementById('cy'),
+                elements: data.nodes.concat(data.edges),
+                style: [
+                    {
+                        selector: 'node',
+                        style: {
+                            'label': 'data(label)',
+                            'background-color': ele => ele.data('enrolled') ? 'green' : 'lightblue',
+                            'color': 'black',
+                            'text-valign': 'center',
+                            'text-halign': 'center',
+                            'shape': 'roundrectangle',
+                            'width': 'label',
+                            'padding': '10px'
+                        }
+                    },
+                    {
+                        selector: 'edge',
+                        style: {
+                            'width': 2,
+                            'line-color': '#888',
+                            'target-arrow-color': '#888',
+                            'target-arrow-shape': 'triangle',
+                            'curve-style': 'bezier'
+                        }
+                    }
+                ],
+                layout: {
+                    name: 'dagre',
+                    rankDir: 'TB',
+                    nodeSep: 50,
+                    rankSep: 100
+                }
+            });
+        })
+        .catch(err => console.error('Error loading course graph:', err));
+</script>
+
 </body>
 </html>

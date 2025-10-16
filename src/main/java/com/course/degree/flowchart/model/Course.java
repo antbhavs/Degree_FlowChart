@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,9 +19,9 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String code; 
-    private String name;      
-    private String degreeProgram; 
+    private String code;
+    private String name;
+    private String degreeProgram;
 
     @ManyToOne
     private Course prerequisite;
