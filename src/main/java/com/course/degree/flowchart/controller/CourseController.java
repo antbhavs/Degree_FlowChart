@@ -25,7 +25,8 @@ public class CourseController {
     @GetMapping("/courses/graph")
     public CourseGraphResponse getCourseGraph(@RequestParam String email) {
         Student student = studentRepository.findByEmail(email);
-        if (student == null) throw new RuntimeException("Student not found");
+        if (student == null)
+            throw new RuntimeException("Student not found");
 
         List<Course> courses = courseRepository.findByDegreeProgram(student.getDegree());
 
@@ -35,20 +36,16 @@ public class CourseController {
         for (Course course : courses) {
             boolean enrolled = student.getCourses().contains(course);
             nodes.add(Map.of(
-                "data", Map.of(
-                    "id", "C" + course.getId(),
-                    "label", course.getCode() + "\n" + course.getName(),
-                    "enrolled", enrolled
-                )
-            ));
+                    "data", Map.of(
+                            "id", "C" + course.getId(),
+                            "label", course.getCode() + "\n" + course.getName(),
+                            "enrolled", enrolled)));
 
             if (course.getPrerequisite() != null) {
                 edges.add(Map.of(
-                    "data", Map.of(
-                        "source", "C" + course.getPrerequisite().getId(),
-                        "target", "C" + course.getId()
-                    )
-                ));
+                        "data", Map.of(
+                                "source", "C" + course.getPrerequisite().getId(),
+                                "target", "C" + course.getId())));
             }
         }
 
@@ -58,7 +55,8 @@ public class CourseController {
     @PostMapping("/students/enroll")
     public Student enrollStudent(@RequestBody EnrollmentRequest request) {
         Student student = studentRepository.findByEmail(request.getStudentEmail());
-        if (student == null) throw new RuntimeException("Student not found");
+        if (student == null)
+            throw new RuntimeException("Student not found");
 
         Course course = courseRepository.findById(request.getCourseId())
                 .orElseThrow(() -> new RuntimeException("Course not found"));
@@ -69,6 +67,81 @@ public class CourseController {
         studentRepository.save(student);
         courseRepository.save(course);
 
+        return student;
+    }
+
+    @GetMapping("/courses/eligible")
+    public List<Course> getEligibleCourses(@RequestParam String email) {
+        Student student = studentRepository.findByEmail(email);
+        if (student == null)
+            throw new RuntimeException("Student not found");
+
+        List<Course> allCourses = courseRepository.findByDegreeProgram(student.getDegree());
+        Set<Course> completed = student.getCourses();
+
+        List<Course> eligible = new ArrayList<>();
+
+        for (Course c : allCourses) {
+            if (completed.contains(c))
+                continue;
+            Course prereq = c.getPrerequisite();
+
+            if (prereq == null || completed.contains(prereq)) {
+                eligible.add(c);
+            }
+        }
+
+        return eligible;
+    }
+
+    @GetMapping("/courses/semester-graph")
+    public CourseGraphResponse getSemesterGraph(@RequestParam String email) {
+        Student student = studentRepository.findByEmail(email);
+        if (student == null)
+            throw new RuntimeException("Student not found");
+
+        List<Course> courses = courseRepository.findByDegreeProgram(student.getDegree());
+        Set<Course> completed = student.getCourses();
+
+        List<Object> nodes = new ArrayList<>();
+        List<Object> edges = new ArrayList<>();
+
+        for (Course c : courses) {
+            boolean enrolled = completed.contains(c);
+            boolean eligible = !enrolled && (c.getPrerequisite() == null || completed.contains(c.getPrerequisite()));
+
+            Map<String, Object> nodeData = new HashMap<>();
+            nodeData.put("id", "C" + c.getId());
+            nodeData.put("label", c.getCode() + "\n" + c.getName());
+            nodeData.put("status", enrolled ? "enrolled" : eligible ? "eligible" : "locked");
+
+            if (c.getPrerequisite() != null) {
+                nodeData.put("prerequisiteId", c.getPrerequisite().getId());
+            }
+
+            nodes.add(Map.of("data", nodeData));
+
+            if (c.getPrerequisite() != null) {
+                edges.add(Map.of(
+                        "data", Map.of(
+                                "source", "C" + c.getPrerequisite().getId(),
+                                "target", "C" + c.getId())));
+            }
+        }
+
+        return new CourseGraphResponse(nodes, edges);
+    }
+
+    @DeleteMapping("/students/discard-plan")
+    public Student discardPlannedCourses(@RequestParam String email, @RequestBody List<Long> courseIds) {
+        Student student = studentRepository.findByEmail(email);
+        if (student == null)
+            throw new RuntimeException("Student not found");
+
+        Set<Course> currentCourses = student.getCourses();
+        currentCourses.removeIf(course -> courseIds.contains(course.getId()));
+
+        studentRepository.save(student);
         return student;
     }
 }
