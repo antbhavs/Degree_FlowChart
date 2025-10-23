@@ -39,15 +39,3 @@ UPDATE course SET prerequisite_id = (SELECT id FROM course WHERE code = 'CS402')
 
 INSERT OR IGNORE INTO student (email, password, name, degree, year, gpa)
 VALUES ('antara@example.com', 'mypassword', 'Antara Bhavsar', 'MS Computer Science', 2, 3.9);
-
-INSERT OR IGNORE INTO student_course (student_id, course_id)
-SELECT s.id, c.id FROM student s, course c
-WHERE s.email = 'antara@example.com' AND c.code = 'CS101';
-
-INSERT OR IGNORE INTO student_course (student_id, course_id)
-SELECT s.id, c.id FROM student s, course c
-WHERE s.email = 'antara@example.com' AND c.code = 'CS102';
-
-INSERT OR IGNORE INTO student_course (student_id, course_id)
-SELECT s.id, c.id FROM student s, course c
-WHERE s.email = 'antara@example.com' AND c.code = 'CS201';
