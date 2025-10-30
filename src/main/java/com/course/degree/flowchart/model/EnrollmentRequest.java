@@ -1,5 +1,8 @@
 package com.course.degree.flowchart.model;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class EnrollmentRequest {
     private String studentEmail;
     private Long courseId;

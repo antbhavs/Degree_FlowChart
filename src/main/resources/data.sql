@@ -38,4 +38,4 @@ UPDATE course SET prerequisite_id = (SELECT id FROM course WHERE code = 'CS402')
 
 
 INSERT OR IGNORE INTO student (email, password, name, degree, year, gpa)
-VALUES ('antara@example.com', 'mypassword', 'Antara Bhavsar', 'MS Computer Science', 2, 3.9);
+VALUES ('antara@example.com', 'mypassword', 'Antara Bhavsar', 'MS Computer Science', 1, 3.9);

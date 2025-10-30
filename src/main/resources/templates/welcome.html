@@ -2,317 +2,418 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Semester Planner</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f6fa;
-            margin: 0;
-            padding: 0;
-        }
+  <title>Semester Planner</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(120deg, #f5f6fa, #e9eff5);
+      margin: 0;
+      padding: 0;
+    }
+  
+    header {
+      background: linear-gradient(90deg, #007bff, #0056b3);
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    }
+  
+    header h2 {
+      margin: 0;
+      font-weight: 600;
+      font-size: 1.5rem;
+    }
+  
+    header button {
+      background-color: white;
+      color: #007bff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+  
+    header button:hover {
+      background-color: #e3f2fd;
+      transform: translateY(-2px);
+    }
+  
+    .student-card {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px 40px;
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+  
+    .student-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+    }
+  
+    h3 {
+      text-align: center;
+      color: #007bff;
+      margin-top: 40px;
+      font-size: 1.6rem;
+      letter-spacing: 0.5px;
+    }
+  
+    #cy {
+      width: 80%;
+      height: 700px;
+      margin: 25px auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      background-color: #ffffff;
+      border: none;
+    }
+  
+    .controls {
+      text-align: center;
+      margin: 25px;
+    }
+  
+    .controls button {
+      background: linear-gradient(90deg, #007bff, #0056b3);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 0 12px;
+      transition: 0.3s;
+    }
+  
+    .controls button:hover {
+      background: linear-gradient(90deg, #0056b3, #003d7a);
+      transform: translateY(-2px);
+    }
+  
+    .summary {
+      text-align: center;
+      margin: 20px auto;
+      padding: 15px 20px;
+      background-color: #fffbe6;
+      border: 1px solid #ffe58f;
+      border-radius: 12px;
+      width: 85%;
+      font-weight: 500;
+      font-size: 14px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+  
+    .legend {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 25px;
+      margin: 25px auto;
+      background-color: #ffffff;
+      border-radius: 12px;
+      width: 65%;
+      padding: 12px 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+  
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
+    }
+  
+    .legend-color {
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      border: 1px solid #888;
+    }
+  
+    .green { background-color: #2ecc71; }
+    .blue { background-color: #3498db; }
+    .orange { background-color: #e67e22; }
+    .grey { background-color: #bdc3c7; }
+    #summary-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin: 20px auto;
+    padding: 15px 20px;
+    background-color: #fffdf5;
+    border: 1px solid #ffe3b3;
+    border-radius: 12px;
+    width: 85%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    font-size: 14px;
+    color: #333;
+  }
 
-        header {
-            background-color: #007bff;
-            color: white;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+  .semester-block {
+    width: 100%;
+    text-align: left;
+  }
 
-        header h2 {
-            margin: 0;
-        }
+  .semester-title {
+    font-weight: 600;
+    color: #007bff;
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
 
-        header button {
-            background-color: white;
-            color: #007bff;
-            border: none;
-            padding: 8px 15px;
-            font-size: 14px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+  .courses-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
 
-        header button:hover {
-            background-color: #e3f2fd;
-        }
+  .course-pill {
+    background-color: #f0f8ff;
+    color: #0056b3;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 13px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+  }
 
-        .student-card {
-            max-width: 500px;
-            margin: 30px auto;
-            padding: 25px;
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
+  .course-pill:hover {
+    transform: translateY(-2px);
+    background-color: #d0e7ff;
+  }
 
-        h3 {
-            text-align: center;
-            color: #007bff;
-            margin-top: 30px;
-        }
+  .semester-credits {
+    display: block;
+    margin-top: 5px;
+    font-weight: 500;
+    color: #ff8c00;
+    font-size: 13px;
+  }
+  </style>
 
-        #cy {
-            width: 70%;
-            height: 600px;
-            margin: 20px auto;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            border-radius: 8px;
-        }
-
-        .controls {
-            text-align: center;
-            margin: 20px;
-        }
-
-        .controls button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin: 0 10px;
-        }
-
-        .controls button:hover {
-            background-color: #0056b3;
-        }
-
-        .summary {
-            text-align: center;
-            margin: 15px auto;
-            padding: 10px;
-            background-color: #fff3cd;
-            border: 1px solid #ffeeba;
-            border-radius: 8px;
-            width: 80%;
-        }
-    </style>
-
-    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
-    <script src="https://unpkg.com/dagre/dist/dagre.min.js"></script>
-    <script src="https://unpkg.com/cytoscape-dagre/cytoscape-dagre.js"></script>
+  <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+  <script src="https://unpkg.com/dagre/dist/dagre.min.js"></script>
+  <script src="https://unpkg.com/cytoscape-dagre/cytoscape-dagre.js"></script>
 </head>
 
 <body>
-    <header>
-        <h2>Welcome, <span th:text="${student.name}"></span></h2>
-        <form th:action="@{/auth/login}" method="get">
-            <button type="submit">Logout</button>
-        </form>
-    </header>
+  <header>
+    <h2>Welcome, <span th:text="${student.name}"></span></h2>
+    <form th:action="@{/auth/logout}" method="get">
+      <button type="submit">Logout</button>
+    </form>
+  </header>
 
-    <div class="student-card">
-        <p>
-            <strong>Email:</strong> <span th:text="${student.email}"></span><br>
-            <strong>Degree:</strong> <span th:text="${student.degree}"></span><br>
-            <strong>Year:</strong> <span th:text="${student.year}"></span><br>
-            <strong>GPA:</strong> <span th:text="${student.gpa}"></span>
-        </p>
+  <div class="student-card">
+    <p>
+      <strong>Email:</strong> <span th:text="${student.email}"></span><br>
+      <strong>Degree:</strong> <span th:text="${student.degree}"></span><br>
+      <strong>Year:</strong> <span th:text="${student.year}"></span><br>
+      <strong>GPA:</strong> <span th:text="${student.gpa}"></span>
+    </p>
+  </div>
+
+  <h3 id="sem-header">Semester Planner Flowchart (Semester 2)</h3>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-color green"></div> Enrolled
     </div>
-
-    <h3 id="sem-header">Semester Planner Flowchart (Semester 1)</h3>
-    <div id="cy"></div>
-
-    <div class="controls">
-        <button id="save-plan-btn">💾 Save Semester Plan</button>
-        <button id="discard-plan-btn">🔁 Discard Semester Plan</button>
+    <div class="legend-item">
+      <div class="legend-color blue"></div> Eligible
     </div>
+    <div class="legend-item">
+      <div class="legend-color orange"></div> Planned
+    </div>
+    <div class="legend-item">
+      <div class="legend-color grey"></div> Locked / Not Available
+    </div>
+  </div>
 
-    <div class="summary" id="summary-box">No courses selected yet.</div>
+  <div id="cy"></div>
 
-    <script th:inline="javascript">
-        let cy;
-        let currentSemester = 1;
-        const selectedBySemester = {};
-        const studentEmail = [[${ student.email }]];
-        let courseLabelMap = {}; 
+  <div class="controls">
+    <button id="save-plan-btn">💾 Save Plan</button>
+    <button id="discard-plan-btn">🔁 Discard Plan</button>
+  </div>
 
-        function loadGraph() {
-            fetch(`/api/courses/semester-graph?email=${studentEmail}&semester=${currentSemester}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (cy) cy.destroy();
+  <div class="summary" id="summary-box">No courses selected yet.</div>
 
-                    courseLabelMap = {};
-                    data.nodes.forEach(node => courseLabelMap[node.data.id] = node.data.label);
+  <script th:inline="javascript">
+    let cy;
+    let currentSemester = 1;
+    const selectedBySemester = {};
+    const studentEmail = [[${ student.email }]];
+    const MAX_CREDITS = 9;
+    const COURSE_CREDIT = 3;
 
-                    cy = cytoscape({
-                        container: document.getElementById('cy'),
-                        elements: data.nodes.concat(data.edges),
-                        style: [
-                            {
-                                selector: 'node',
-                                style: {
-                                    'label': ele => {
-                                        const id = ele.data('id');
-                                        for (const [sem, set] of Object.entries(selectedBySemester)) {
-                                            if (set.has(id)) return `${ele.data('label')} (Sem ${sem})`;
-                                        }
-                                        return ele.data('label');
-                                    },
-                                    'text-valign': 'center',
-                                    'text-halign': 'center',
-                                    'text-wrap': 'wrap',              
-                                    'text-max-width': '120px',    
-                                    'overflow-wrap': 'break-word',  
-                                    'background-color': ele => {
-                                        const id = ele.data('id');
-                                        for (const [sem, set] of Object.entries(selectedBySemester)) {
-                                            if (set.has(id)) return '#e67e22';
-                                        }
-                                        const s = ele.data('status');
-                                        if (s === 'enrolled') return '#2ecc71';
-                                        if (s === 'eligible') return '#3498db';
-                                        return '#bdc3c7';
-                                    },
-                                    'color': 'black',
-                                    'shape': 'roundrectangle',
-                                    'padding': '15px',              
-                                    'width': 'label',       
-                                    'height': 'label',     
-                                    'min-width': '120px',       
-                                    'min-height': '60px',        
-                                    'border-width': ele => ele.data('status') === 'eligible' ? 2 : 0,
-                                    'border-color': '#2980b9',
-                                    'font-size': '15px'
-                                }
-                            },
-                            {
-                                selector: 'edge',
-                                style: {
-                                    'width': 2,
-                                    'line-color': '#999',
-                                    'target-arrow-color': '#999',
-                                    'target-arrow-shape': 'triangle',
-                                    'curve-style': 'bezier'
-                                }
-                            },
-                            {
-                                selector: 'node:selected',
-                                style: { 'border-color': '#e67e22', 'border-width': 4 }
-                            }
-                        ],
-                        layout: { name: 'dagre', rankDir: 'TB', nodeSep: 80, rankSep: 150 }
-                    });
+    function loadGraph() {
+      fetch(`/api/courses/semester-graph?email=${studentEmail}`)
+        .then(res => res.json())
+        .then(data => {
+          if (cy) cy.destroy();
 
-                    const prereqMap = {};
-                    cy.nodes().forEach(node => {
-                        const prereqId = node.data('prerequisiteId');
-                        if (prereqId) {
-                            if (!prereqMap[prereqId]) prereqMap[prereqId] = [];
-                            prereqMap[prereqId].push(node.data('id'));
-                        }
-                    });
-
-                    function updateDependents(selectedId) {
-                        const dependents = prereqMap[selectedId];
-                        if (!dependents) return;
-                        dependents.forEach(depId => {
-                            const depNode = cy.getElementById(depId);
-                            const prereqId = depNode.data('prerequisiteId');
-                            let prereqSatisfied = true;
-                            if (prereqId && !cy.getElementById("C" + prereqId).hasClass('selected')) prereqSatisfied = false;
-
-                            if (prereqSatisfied) {
-                                depNode.style('background-color', '#3498db');
-                            }
-                        });
+          cy = cytoscape({
+            container: document.getElementById('cy'),
+            elements: data.nodes.concat(data.edges),
+            style: [
+              {
+                selector: 'node',
+                style: {
+                  'label': ele => {
+                    const id = ele.data('id');
+                    for (const [sem, set] of Object.entries(selectedBySemester)) {
+                      if (set.has(id)) return `${ele.data('label')} (Sem ${sem})`;
                     }
-
-                    cy.nodes().on('click', evt => {
-                        const node = evt.target;
-                        if (node.data('status') !== 'eligible') return;
-                        const id = node.data('id');
-                        const selectedSet = selectedBySemester[currentSemester] || new Set();
-
-                        if (selectedSet.has(id)) {
-                            selectedSet.delete(id);
-                            node.removeClass('selected');
-                        } else {
-                            selectedSet.add(id);
-                            node.addClass('selected');
-                        }
-                        selectedBySemester[currentSemester] = selectedSet;
-
-                        updateDependents(id);
-                        updateSummary();
-                    });
-
-                    updateSummary();
-                });
-        }
-
-        function updateSummary() {
-            const summary = document.getElementById("summary-box");
-            const entries = Object.entries(selectedBySemester);
-            if (entries.length === 0) { summary.innerHTML = "No courses selected yet."; return; }
-
-            let html = `<u>Planned Courses:</u><br>`;
-            for (const [sem, courses] of entries) {
-                if (courses.size > 0) {
-                    const courseNames = [...courses].map(id => courseLabelMap[id] || id);
-                    html += `Semester ${sem}: <strong>${courseNames.join(", ")}</strong><br>`;
+                    return ele.data('label');
+                  },
+                  'text-valign': 'center',
+                  'text-halign': 'center',
+                  'text-wrap': 'wrap',
+                  'text-max-width': '100px',
+                  'background-color': ele => {
+                    const id = ele.data('id');
+                    for (const [sem, set] of Object.entries(selectedBySemester)) {
+                      if (set.has(id)) return '#e67e22';
+                    }
+                    const s = ele.data('status');
+                    if (s === 'enrolled') return '#2ecc71';
+                    if (s === 'eligible') return '#3498db';
+                    return '#bdc3c7';
+                  },
+                  'color': 'black',
+                  'shape': 'roundrectangle',
+                  'width': '160px',
+                  'height': '60px',
+                  'padding': '10px',
+                  'border-width': ele => ele.data('status') === 'eligible' ? 2 : 0,
+                  'border-color': '#2980b9',
+                  'font-size': '14px'
                 }
-            }
-            summary.innerHTML = html;
-        }
+              },
+              { selector: 'edge', style: { 'width': 2, 'line-color': '#999', 'target-arrow-color': '#999', 'target-arrow-shape': 'triangle', 'curve-style': 'bezier' } },
+              { selector: 'node:selected', style: { 'border-color': '#e67e22', 'border-width': 4 } }
+            ],
+            layout: { name: 'dagre', rankDir: 'TB', nodeSep: 100, rankSep: 180 }
+          });
 
-        async function savePlan() {
-            if (!selectedBySemester[currentSemester] || selectedBySemester[currentSemester].size === 0) {
-                alert("No courses selected for this semester.");
+          cy.nodes().on('click', evt => {
+            const node = evt.target;
+            if (node.data('status') !== 'eligible') return;
+
+            const id = node.data('id');
+            const selectedSet = selectedBySemester[currentSemester] || new Set();
+            const currentCredits = selectedSet.size * COURSE_CREDIT;
+
+            if (selectedSet.has(id)) {
+              selectedSet.delete(id);
+              node.removeClass('selected');
+            } else {
+              if (currentCredits + COURSE_CREDIT > MAX_CREDITS) {
+                alert(`Cannot select more than ${MAX_CREDITS} credits per semester.`);
                 return;
+              }
+              selectedSet.add(id);
+              node.addClass('selected');
             }
+            selectedBySemester[currentSemester] = selectedSet;
 
-            const allCourses = Array.from(selectedBySemester[currentSemester]).map(cid => ({
-                semester: currentSemester,
-                courseId: cid.replace('C', '')
-            }));
+            updateSummary();
+          });
 
-            await Promise.all(allCourses.map(c =>
-                fetch('/api/students/enroll', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ studentEmail, courseId: c.courseId })
-                })
-            ));
+          updateSummary();
+        });
+    }
 
-            if (currentSemester < 8) currentSemester++;
-            document.getElementById('sem-header').textContent = `Semester Planner Flowchart (Semester ${currentSemester})`;
-            loadGraph();
-        }
+    function updateSummary() {
+      const summary = document.getElementById("summary-box");
+  const entries = Object.entries(selectedBySemester);
+  if (entries.length === 0) {
+    summary.innerHTML = "<em>No courses selected yet.</em>";
+    return;
+  }
 
-        async function discardPlan() {
-            const plannedSet = selectedBySemester[currentSemester];
-            if (!plannedSet || plannedSet.size === 0) {
-                alert("No planned courses to discard for this semester.");
-                return;
-            }
+  let html = "";
+  for (const [sem, courses] of entries) {
+    if (courses.size > 0) {
+      const names = [...courses].map(id => cy.getElementById(id).data('label').split(' (')[0]);
+      html += `<div class="semester-block">
+                 <div class="semester-title">Semester ${sem}:</div>
+                 <div class="courses-list">`;
+      names.forEach(name => {
+        html += `<div class="course-pill">${name}</div>`;
+      });
+      html += `</div>
+               <span class="semester-credits">Total: ${courses.size * COURSE_CREDIT} credits</span>
+               </div>`;
+    }
+  }
+  summary.innerHTML = html;
+    }
 
-            const plannedIds = Array.from(plannedSet).map(cid => parseInt(cid.substring(1)));
-            await fetch(`/api/students/discard-plan?email=${studentEmail}`, {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(plannedIds)
-            });
+    async function savePlan() {
+      const allCourses = Object.entries(selectedBySemester)
+        .flatMap(([sem, set]) => Array.from(set).map(cid => ({ semester: sem, courseId: cid })));
 
-            selectedBySemester[currentSemester] = new Set();
-            if (currentSemester > 1) currentSemester--;
-            document.getElementById('sem-header').textContent = `Semester Planner Flowchart (Semester ${currentSemester})`;
-            alert(`Semester plan discarded. Moved back to semester ${currentSemester}.`);
-            loadGraph();
-        }
+      if (allCourses.length === 0) {
+        alert("No planned courses to save!");
+        return;
+      }
 
-        document.getElementById('save-plan-btn').addEventListener('click', savePlan);
-        document.getElementById('discard-plan-btn').addEventListener('click', discardPlan);
+      for (const c of allCourses) {
+        await fetch('/api/students/enroll', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ studentEmail, courseId: c.courseId.replace('C', '') })
+        });
+      }
 
-        loadGraph();
-    </script>
+      alert("Plan saved successfully!");
+      currentSemester++;
+      document.getElementById('sem-header').textContent = `Semester Planner Flowchart (Semester ${currentSemester})`;
+      loadGraph();
+    }
+
+    async function discardPlan() {
+      const plannedSet = selectedBySemester[currentSemester];
+      if (!plannedSet || plannedSet.size === 0) {
+        alert("No planned courses to discard for this semester.");
+        return;
+      }
+
+      const plannedIds = Array.from(plannedSet).map(cid => parseInt(cid.substring(1)));
+      await fetch(`/api/students/discard-plan?email=${studentEmail}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(plannedIds)
+      });
+
+      selectedBySemester[currentSemester] = new Set();
+      if (currentSemester > 1) currentSemester--;
+      document.getElementById('sem-header').textContent = `Semester Planner Flowchart (Semester ${currentSemester})`;
+      alert(`Semester plan discarded. Moved back to semester ${currentSemester}.`);
+      loadGraph();
+    }
+
+
+    document.getElementById('save-plan-btn').addEventListener('click', savePlan);
+    document.getElementById('discard-plan-btn').addEventListener('click', discardPlan);
+
+    loadGraph();
+  </script>
 </body>
 
 </html>

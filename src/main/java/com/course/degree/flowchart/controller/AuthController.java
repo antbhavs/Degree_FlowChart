@@ -40,9 +40,13 @@ public class AuthController {
 
         List<Course> allCourses = courseRepository.findByDegreeProgram(existingStudent.getDegree());
 
+        int currentSemester = existingStudent.getYear() * 2;
+        if (currentSemester > 8) currentSemester = 8;
+
         model.addAttribute("student", existingStudent);
         model.addAttribute("enrolledCourses", existingStudent.getCourses());
         model.addAttribute("allCourses", allCourses);
+        model.addAttribute("currentSemester", currentSemester);
 
         return "welcome";
     }
