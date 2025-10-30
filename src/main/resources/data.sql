@@ -4,6 +4,9 @@ INSERT OR IGNORE INTO course (code, name, degree_program) VALUES
  ('CS103', 'Discrete Mathematics', 'MS Computer Science'),
  ('CS104', 'Computer Architecture', 'MS Computer Science'),
  ('CS105', 'Programming Paradigms', 'MS Computer Science'),
+ ('CS106', 'Computer Graphics', 'MS Computer Science'),
+  ('CS107', 'Human-Computer Interaction', 'MS Computer Science'),
+  ('CS108', 'Introduction to Quantum Computing', 'MS Computer Science'),
 
  ('CS201', 'Algorithms', 'MS Computer Science'),
  ('CS202', 'Database Systems', 'MS Computer Science'),
@@ -39,3 +42,4 @@ UPDATE course SET prerequisite_id = (SELECT id FROM course WHERE code = 'CS402')
 
 INSERT OR IGNORE INTO student (email, password, name, degree, year, gpa)
 VALUES ('antara@example.com', 'mypassword', 'Antara Bhavsar', 'MS Computer Science', 1, 3.9);
+
