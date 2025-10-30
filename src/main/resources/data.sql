@@ -45,5 +45,5 @@ VALUES ('antara@example.com', 'mypassword', 'Antara Bhavsar', 'MS Computer Scien
 
 INSERT OR IGNORE INTO student_course (student_id, course_id) VALUES
 (1, 1),
-(1, 14),
-(1, 21);
+(1, 2),
+(1, 3);
