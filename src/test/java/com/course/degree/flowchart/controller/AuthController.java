@@ -8,6 +8,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.ui.Model;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import java.util.List;
 import java.util.Set;
@@ -25,6 +28,9 @@ class AuthControllerTest {
 
     @Mock
     private Model model;
+
+    @Mock
+    private BCryptPasswordEncoder passwordEncoder;
 
     @InjectMocks
     private AuthController authController;
@@ -54,7 +60,7 @@ class AuthControllerTest {
     void testProcessLogin_SuccessfulLogin() {
         Student student = new Student();
         student.setEmail("test@example.com");
-        student.setPassword("123");
+        student.setPassword("hashed123");
         student.setDegree("CS");
         student.setYear(2);
 
@@ -62,9 +68,14 @@ class AuthControllerTest {
         course.setName("Test Course");
 
         when(studentRepository.findByEmail("test@example.com")).thenReturn(student);
+        when(passwordEncoder.matches("123", "hashed123")).thenReturn(true);
         when(courseRepository.findByDegreeProgram("CS")).thenReturn(List.of(course));
 
-        String result = authController.processLogin(student, model);
+        Student formStudent = new Student();
+        formStudent.setEmail("test@example.com");
+        formStudent.setPassword("123");
+
+        String result = authController.processLogin(formStudent, model);
 
         assertEquals("welcome", result);
         verify(model).addAttribute(eq("student"), eq(student));
@@ -90,6 +101,7 @@ class AuthControllerTest {
     @Test
     void testProcessLogin_InvalidPassword_ShouldReturnLoginPageWithError() {
         when(studentRepository.findByEmail("john@example.com")).thenReturn(student);
+        when(passwordEncoder.matches("wrong", "1234")).thenReturn(false);
 
         Student formStudent = new Student();
         formStudent.setEmail("john@example.com");
@@ -105,5 +117,46 @@ class AuthControllerTest {
     void testLogout_ShouldRedirectToLogin() {
         String view = authController.logout();
         assertEquals("redirect:/auth/login", view);
+    }
+
+    @Test
+    void testShowRegistrationForm_ShouldReturnRegisterPage() {
+        String view = authController.showRegistrationForm(model);
+        verify(model).addAttribute(eq("student"), any(Student.class));
+        assertEquals("register", view);
+    }
+
+    @Test
+    void testProcessRegistration_Success() {
+        Student newStudent = new Student();
+        newStudent.setEmail("new@example.com");
+        newStudent.setPassword("pass");
+
+        when(studentRepository.findByEmail("new@example.com")).thenReturn(null);
+        when(passwordEncoder.encode("pass")).thenReturn("hashedPass");
+
+        RedirectAttributes redirectAttrs = new RedirectAttributesModelMap();
+
+        String view = authController.processRegistration(newStudent, redirectAttrs);
+
+        verify(studentRepository).save(any(Student.class));
+        assertEquals("redirect:/auth/login", view);
+        assertEquals("Registration successful. Please login.", redirectAttrs.getFlashAttributes().get("success"));
+    }
+
+    @Test
+    void testProcessRegistration_EmailExists_ShouldRedirectBackWithError() {
+        Student newStudent = new Student();
+        newStudent.setEmail("john@example.com");
+
+        when(studentRepository.findByEmail("john@example.com")).thenReturn(student);
+
+        RedirectAttributes redirectAttrs = new RedirectAttributesModelMap();
+
+        String view = authController.processRegistration(newStudent, redirectAttrs);
+
+        verify(studentRepository, never()).save(any());
+        assertEquals("redirect:/auth/register", view);
+        assertEquals("Email already exists", redirectAttrs.getFlashAttributes().get("error"));
     }
 }
