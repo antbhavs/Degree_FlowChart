@@ -114,6 +114,7 @@ public class CourseController {
             nodeData.put("id", "C" + c.getId());
             nodeData.put("label", c.getCode() + "\n" + c.getName());
             nodeData.put("status", enrolled ? "enrolled" : eligible ? "eligible" : "locked");
+            nodeData.put("required", c.isRequiredCourse());
 
             if (c.getPrerequisite() != null) {
                 nodeData.put("prerequisiteId", c.getPrerequisite().getId());

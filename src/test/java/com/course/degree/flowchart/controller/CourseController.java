@@ -33,8 +33,8 @@ class CourseControllerTest {
     void setup() {
         MockitoAnnotations.openMocks(this);
 
-        c1 = new Course(1L, "CSE101", "Intro to CS", "B.Tech", null, new HashSet<>());
-        c2 = new Course(2L, "CSE201", "Data Structures", "B.Tech", c1, new HashSet<>());
+        c1 = new Course(1L, "CSE101", "Intro to CS", "B.Tech", null, new HashSet<>(),true);
+        c2 = new Course(2L, "CSE201", "Data Structures", "B.Tech", c1, new HashSet<>(),true);
 
         student = new Student();
         student.setEmail("john@example.com");

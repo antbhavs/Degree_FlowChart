@@ -1,30 +1,31 @@
-INSERT OR IGNORE INTO course (code, name, degree_program) VALUES
- ('CS101', 'Introduction to Computer Science', 'MS Computer Science'),
- ('CS102', 'Data Structures', 'MS Computer Science'),
- ('CS103', 'Discrete Mathematics', 'MS Computer Science'),
- ('CS104', 'Computer Architecture', 'MS Computer Science'),
- ('CS105', 'Programming Paradigms', 'MS Computer Science'),
- ('CS106', 'Computer Graphics', 'MS Computer Science'),
-  ('CS107', 'Human-Computer Interaction', 'MS Computer Science'),
-  ('CS108', 'Introduction to Quantum Computing', 'MS Computer Science'),
+INSERT OR IGNORE INTO course (code, name, degree_program, required_course) VALUES
+ ('CS101', 'Introduction to Computer Science', 'MS Computer Science', 1),
+ ('CS102', 'Data Structures', 'MS Computer Science', 1),
+ ('CS103', 'Discrete Mathematics', 'MS Computer Science', 1),
+ ('CS104', 'Computer Architecture', 'MS Computer Science', 1),
+ ('CS105', 'Programming Paradigms', 'MS Computer Science', 1),
 
- ('CS201', 'Algorithms', 'MS Computer Science'),
- ('CS202', 'Database Systems', 'MS Computer Science'),
- ('CS203', 'Operating Systems', 'MS Computer Science'),
- ('CS204', 'Computer Networks', 'MS Computer Science'),
- ('CS205', 'Software Engineering', 'MS Computer Science'),
+ ('CS106', 'Computer Graphics', 'MS Computer Science', 0),
+ ('CS107', 'Human-Computer Interaction', 'MS Computer Science', 0),
+ ('CS108', 'Introduction to Quantum Computing', 'MS Computer Science', 0),
 
- ('CS301', 'Machine Learning', 'MS Computer Science'),
- ('CS302', 'Artificial Intelligence', 'MS Computer Science'),
- ('CS303', 'Compiler Design', 'MS Computer Science'),
- ('CS304', 'Distributed Systems', 'MS Computer Science'),
- ('CS305', 'Cloud Computing', 'MS Computer Science'),
+ ('CS201', 'Algorithms', 'MS Computer Science', 0),
+ ('CS202', 'Database Systems', 'MS Computer Science', 0),
+ ('CS203', 'Operating Systems', 'MS Computer Science', 0),
+ ('CS204', 'Computer Networks', 'MS Computer Science', 0),
+ ('CS205', 'Software Engineering', 'MS Computer Science', 0),
 
- ('CS401', 'Deep Learning', 'MS Computer Science'),
- ('CS402', 'Advanced AI Applications', 'MS Computer Science'),
- ('CS403', 'Big Data Analytics', 'MS Computer Science'),
- ('CS404', 'Cybersecurity', 'MS Computer Science'),
- ('CS405', 'Capstone Project', 'MS Computer Science');
+ ('CS301', 'Machine Learning', 'MS Computer Science', 0),
+ ('CS302', 'Artificial Intelligence', 'MS Computer Science', 0),
+ ('CS303', 'Compiler Design', 'MS Computer Science', 0),
+ ('CS304', 'Distributed Systems', 'MS Computer Science', 0),
+ ('CS305', 'Cloud Computing', 'MS Computer Science', 0),
+
+ ('CS401', 'Deep Learning', 'MS Computer Science', 0),
+ ('CS402', 'Advanced AI Applications', 'MS Computer Science', 0),
+ ('CS403', 'Big Data Analytics', 'MS Computer Science', 0),
+ ('CS404', 'Cybersecurity', 'MS Computer Science', 0),
+ ('CS405', 'Capstone Project', 'MS Computer Science', 0);
 
 -- Set Prerequisites
 UPDATE course SET prerequisite_id = (SELECT id FROM course WHERE code = 'CS101') WHERE code IN ('CS102', 'CS103', 'CS104', 'CS105');

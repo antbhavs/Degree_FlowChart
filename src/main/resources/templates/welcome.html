@@ -10,7 +10,7 @@
       margin: 0;
       padding: 0;
     }
-  
+
     header {
       background: linear-gradient(90deg, #007bff, #0056b3);
       color: white;
@@ -18,15 +18,15 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
     }
-  
+
     header h2 {
       margin: 0;
       font-weight: 600;
       font-size: 1.5rem;
     }
-  
+
     header button {
       background-color: white;
       color: #007bff;
@@ -38,12 +38,12 @@
       cursor: pointer;
       transition: 0.3s;
     }
-  
+
     header button:hover {
       background-color: #e3f2fd;
       transform: translateY(-2px);
     }
-  
+
     .student-card {
       max-width: 600px;
       margin: 40px auto;
@@ -54,12 +54,12 @@
       text-align: center;
       transition: transform 0.3s, box-shadow 0.3s;
     }
-  
+
     .student-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
     }
-  
+
     h3 {
       text-align: center;
       color: #007bff;
@@ -67,22 +67,22 @@
       font-size: 1.6rem;
       letter-spacing: 0.5px;
     }
-  
+
     #cy {
       width: 80%;
       height: 700px;
       margin: 25px auto;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       background-color: #ffffff;
       border: none;
     }
-  
+
     .controls {
       text-align: center;
       margin: 25px;
     }
-  
+
     .controls button {
       background: linear-gradient(90deg, #007bff, #0056b3);
       color: white;
@@ -95,12 +95,12 @@
       margin: 0 12px;
       transition: 0.3s;
     }
-  
+
     .controls button:hover {
       background: linear-gradient(90deg, #0056b3, #003d7a);
       transform: translateY(-2px);
     }
-  
+
     .summary {
       text-align: center;
       margin: 20px auto;
@@ -111,9 +111,9 @@
       width: 85%;
       font-weight: 500;
       font-size: 14px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
     }
-  
+
     .legend {
       display: flex;
       justify-content: center;
@@ -124,84 +124,99 @@
       border-radius: 12px;
       width: 65%;
       padding: 12px 20px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
     }
-  
+
     .legend-item {
       display: flex;
       align-items: center;
       gap: 10px;
       font-weight: 500;
     }
-  
+
     .legend-color {
       width: 22px;
       height: 22px;
       border-radius: 5px;
       border: 1px solid #888;
     }
-  
-    .green { background-color: #2ecc71; }
-    .blue { background-color: #3498db; }
-    .orange { background-color: #e67e22; }
-    .grey { background-color: #bdc3c7; }
+
+    .green {
+      background-color: #2ecc71;
+    }
+
+    .blue {
+      background-color: #3498db;
+    }
+
+    .orange {
+      background-color: #e67e22;
+    }
+
+    .grey {
+      background-color: #bdc3c7;
+    }
+    .pink {
+      background-color: #ff69b4;
+    }
+
     #summary-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    margin: 20px auto;
-    padding: 15px 20px;
-    background-color: #fffdf5;
-    border: 1px solid #ffe3b3;
-    border-radius: 12px;
-    width: 85%;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    font-size: 14px;
-    color: #333;
-  }
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin: 20px auto;
+      padding: 15px 20px;
+      background-color: #fffdf5;
+      border: 1px solid #ffe3b3;
+      border-radius: 12px;
+      width: 85%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      font-size: 14px;
+      color: #333;
+    }
 
-  .semester-block {
-    width: 100%;
-    text-align: left;
-  }
+    .semester-block {
+      width: 100%;
+      text-align: left;
+    }
 
-  .semester-title {
-    font-weight: 600;
-    color: #007bff;
-    margin-bottom: 8px;
-    font-size: 15px;
-  }
+    .semester-title {
+      font-weight: 600;
+      color: #007bff;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
 
-  .courses-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
+    .courses-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
 
-  .course-pill {
-    background-color: #f0f8ff;
-    color: #0056b3;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-weight: 500;
-    font-size: 13px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    transition: transform 0.2s;
-  }
+    .course-pill {
+      background-color: #f0f8ff;
+      color: #0056b3;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: 500;
+      font-size: 13px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s;
+    }
 
-  .course-pill:hover {
-    transform: translateY(-2px);
-    background-color: #d0e7ff;
-  }
+    .course-pill:hover {
+      transform: translateY(-2px);
+      background-color: #d0e7ff;
+    }
 
-  .semester-credits {
-    display: block;
-    margin-top: 5px;
-    font-weight: 500;
-    color: #ff8c00;
-    font-size: 13px;
-  }
+    .semester-credits {
+      display: block;
+      margin-top: 5px;
+      font-weight: 500;
+      color: #ff8c00;
+      font-size: 13px;
+    }
   </style>
 
   <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
@@ -240,6 +255,9 @@
     </div>
     <div class="legend-item">
       <div class="legend-color grey"></div> Locked / Not Available
+    </div>
+    <div class="legend-item">
+      <div class="legend-color pink"></div> Required
     </div>
   </div>
 
@@ -287,10 +305,12 @@
                   'background-color': ele => {
                     const id = ele.data('id');
                     for (const [sem, set] of Object.entries(selectedBySemester)) {
-                      if (set.has(id)) return '#e67e22';
+                      if (set.has(id)) return '#e67e22'; 
                     }
                     const s = ele.data('status');
-                    if (s === 'enrolled') return '#2ecc71';
+                    const required = ele.data('required');
+                    if (s === 'enrolled' && required) return '#ff69b4'; 
+                    if (s === 'enrolled') return '#27ae60';
                     if (s === 'eligible') return '#3498db';
                     return '#bdc3c7';
                   },
@@ -340,28 +360,28 @@
 
     function updateSummary() {
       const summary = document.getElementById("summary-box");
-  const entries = Object.entries(selectedBySemester);
-  if (entries.length === 0) {
-    summary.innerHTML = "<em>No courses selected yet.</em>";
-    return;
-  }
+      const entries = Object.entries(selectedBySemester);
+      if (entries.length === 0) {
+        summary.innerHTML = "<em>No courses selected yet.</em>";
+        return;
+      }
 
-  let html = "";
-  for (const [sem, courses] of entries) {
-    if (courses.size > 0) {
-      const names = [...courses].map(id => cy.getElementById(id).data('label').split(' (')[0]);
-      html += `<div class="semester-block">
+      let html = "";
+      for (const [sem, courses] of entries) {
+        if (courses.size > 0) {
+          const names = [...courses].map(id => cy.getElementById(id).data('label').split(' (')[0]);
+          html += `<div class="semester-block">
                  <div class="semester-title">Semester ${sem}:</div>
                  <div class="courses-list">`;
-      names.forEach(name => {
-        html += `<div class="course-pill">${name}</div>`;
-      });
-      html += `</div>
+          names.forEach(name => {
+            html += `<div class="course-pill">${name}</div>`;
+          });
+          html += `</div>
                <span class="semester-credits">Total: ${courses.size * COURSE_CREDIT} credits</span>
                </div>`;
-    }
-  }
-  summary.innerHTML = html;
+        }
+      }
+      summary.innerHTML = html;
     }
 
     async function savePlan() {
